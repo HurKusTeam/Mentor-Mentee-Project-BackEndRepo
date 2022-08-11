@@ -50,7 +50,7 @@ func CreateMeeting(c *gin.Context) {
 	var meeting Models.Meeting
 	var modelmeeting Models.Meeting
 
-	Config.DB.First(&mentee, c.Param("id"))
+	Config.DB.First(&mentee, "id = ?", c.Param("id"))
 
 	c.BindJSON(&modelmeeting)
 	meeting.Title = modelmeeting.Title
