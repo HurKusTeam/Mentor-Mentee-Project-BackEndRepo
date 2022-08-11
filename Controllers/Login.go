@@ -76,6 +76,7 @@ func Login(c *gin.Context) {
 			user.Role = 1
 			user.CompanyID = mentee.CompanyID
 			user.MentorID = mentee.MentorID
+			user.MenteeID = mentee.ID
 		}
 		if company.ID != 0 {
 			user.Role = 2
