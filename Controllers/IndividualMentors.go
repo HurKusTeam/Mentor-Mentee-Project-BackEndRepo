@@ -64,6 +64,8 @@ func GetIndividual(c *gin.Context) {
 		modelmentor.Twitter = ab.Twitter
 		modelmentor.ID = mentor.UserID
 		modelmentor.AdID = advert.ID
+
+		modelmentor.Applied = false
 		Config.DB.Where("advert_id = ?", advert.ID).First(&app)
 		if app.ID == 0 {
 			modelmentor.Applied = false

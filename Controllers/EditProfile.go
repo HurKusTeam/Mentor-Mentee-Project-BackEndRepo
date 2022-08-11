@@ -260,7 +260,7 @@ func GetProfile(c *gin.Context) {
 		model.IsMentor = true
 		var comp Models.UserProfile
 		Config.DB.First(&mentorscompany, "id = ?", umentor.CompanyID)
-		Config.DB.First(&comp, "user_id = ?", mentorscompany.ID)
+		Config.DB.First(&comp, "user_id = ?", mentorscompany.UserID)
 		model.Title = mentorscompany.Title
 		model.CompanyID = mentorscompany.ID
 		model.Sector = mentorscompany.Sector
