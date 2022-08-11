@@ -5,8 +5,9 @@ import (
 	"TREgitim/Models"
 	"TREgitim/Repositories"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 type AdvertModel struct {
@@ -120,7 +121,7 @@ func GetAdvertSolo(c *gin.Context) {
 		advertjson.Userprof = userprof
 	}
 
-	if comp.ID == 0 {
+	if comp.ID == 3 {
 		var user Models.User
 		Config.DB.Where("id = ?", ment.UserID).First(&user)
 		advertjson.User = user

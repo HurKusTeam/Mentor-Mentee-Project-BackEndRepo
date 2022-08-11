@@ -190,6 +190,7 @@ type ModelE struct {
 	IsMentor       bool
 	IsMentee       bool
 	IsCompany      bool
+	CompanyImg     string
 	Languages      []string
 	Companymentors []Models.Mentor
 	Companyadverts []Models.Advert
@@ -257,7 +258,9 @@ func GetProfile(c *gin.Context) {
 	}
 	if umentor.ID != 0 {
 		model.IsMentor = true
+		var comp Models.UserProfile
 		Config.DB.First(&mentorscompany, "id = ?", umentor.CompanyID)
+		Config.DB.First(&comp, "user_id = ?", mentorscompany.ID)
 		model.Title = mentorscompany.Title
 		model.CompanyID = mentorscompany.ID
 		model.Sector = mentorscompany.Sector
@@ -265,6 +268,9 @@ func GetProfile(c *gin.Context) {
 		model.SinceDate = mentorscompany.SinceDate
 		model.PersonalCount = mentorscompany.PersonalCount
 		model.Type = mentorscompany.Type
+		if !umentor.IsIndividual {
+			model.CompanyImg = comp.ProfileImage
+		}
 		if umentor.CompanyID == 3 {
 			model.IsIndividual = true
 		}
