@@ -19,6 +19,7 @@ type MailPW struct {
 	MentorID  uint
 	MenteeID  uint
 	AdvertID  uint
+	ProfilIMG string
 }
 
 var store = sessions.NewCookieStore([]byte("sessioncontrol"))
@@ -31,11 +32,12 @@ func Login(c *gin.Context) {
 	var mentee Models.Mentee
 	var company Models.Company
 	var advert Models.Advert
+	var userp Models.UserProfile
 
 	c.BindJSON(&user)
 	password := fmt.Sprintf("%x", sha256.Sum256([]byte(user.Password)))
 	Config.DB.First(&userdb, "mail = ?", user.Mail)
-
+	Config.DB.First(&userp, "user_id = ?", userdb.ID)
 	var sesm = user.Mail
 	var sid = userdb.ID
 
@@ -82,6 +84,9 @@ func Login(c *gin.Context) {
 		}
 		if company.ID == 0 && mentee.ID == 0 && mentor.ID == 0 {
 			user.Role = 3
+		}
+		if userp.ID != 0 {
+			user.ProfilIMG = userp.ProfileImage
 		}
 		c.JSON(202, user)
 		//main := "/Company/"
