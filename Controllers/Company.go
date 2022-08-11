@@ -6,9 +6,10 @@ import (
 	"TREgitim/Repositories"
 	"crypto/sha256"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"strconv"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 type RegisteringgUser struct {
@@ -186,7 +187,7 @@ func MatchMenteeMentor(c *gin.Context) {
 	Config.DB.Where("user_id = ?", user.ID).First(&company)
 
 	var mentees []Models.Mentee
-	Config.DB.Where("company_id = ?", company.ID).Find(&mentees)
+	Config.DB.Where("company_id = ? AND mentor_id = ?", company.ID, 56).Find(&mentees)
 
 	type json struct {
 		User        Models.UserProfile
