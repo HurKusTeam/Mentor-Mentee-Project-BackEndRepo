@@ -125,8 +125,8 @@ func GetTodo(c *gin.Context) {
 	Config.DB.Where("id = ?", mentor.UserID).First(&usermentor)
 	var profmentee Models.UserProfile
 	var profmentor Models.UserProfile
-	Config.DB.Where("id = ?", mentee.UserID).First(&profmentee)
-	Config.DB.Where("id = ?", mentor.UserID).First(&profmentor)
+	Config.DB.Where("user_id = ?", mentee.UserID).First(&profmentee)
+	Config.DB.Where("user_id = ?", mentor.UserID).First(&profmentor)
 
 	var jsonmodel TodoModel
 	jsonmodel.Mentee = mentee
