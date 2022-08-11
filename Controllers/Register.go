@@ -26,6 +26,7 @@ func Register(c *gin.Context) {
 	var company Models.Company
 	//var mentee Models.Mentee
 	var mentor Models.Mentor
+	var up Models.UserProfile
 
 	c.BindJSON(&reguser)
 	Config.DB.First(&user, "mail=?", reguser.Mail)
@@ -43,7 +44,9 @@ func Register(c *gin.Context) {
 		user.Mail = reguser.Mail
 		user.RegisterDate = time.Now()
 		Repositories.NewUser(user)
-
+		up.UserID = user.ID
+		up.ProfileImage = "aasdf"
+		Config.DB.Create(up)
 		Config.DB.Where("mail = ?", user.Mail).First(&userr)
 		if reguser.Dropdown == 1 {
 			mentor.UserID = userr.ID
