@@ -6,9 +6,10 @@ import (
 	"TREgitim/Repositories"
 	"crypto/sha256"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"strconv"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 type RegisteringgUser struct {
@@ -166,10 +167,6 @@ func MatchMenteeMentor(c *gin.Context) {
 	control := session.Values["sessionmail"]
 	controll := fmt.Sprintf("%s", control)
 
-	if control == nil {
-		c.Redirect(301, "/Login")
-	}
-
 	var mentor Models.Mentor
 	var userskill Models.User
 	number, _ := strconv.ParseUint(c.Param("mentorid"), 10, 32)
@@ -231,10 +228,12 @@ func MatchMenteeMentor(c *gin.Context) {
 	}
 	//fmt.Println(menteestruecount[1].Trues)
 	for index, element := range menteestruecount {
+
 		var user Models.UserProfile
 		var x int
 		x = 100 / len(skills)
 		menteestruecount[index].Percent = element.Trues * x
+
 		Config.DB.Where("user_id = ?", element.Menteeid).First(&user)
 		menteestruecount[index].User = user
 		menteestruecount[index].Mentorid = mentor.ID
@@ -242,6 +241,18 @@ func MatchMenteeMentor(c *gin.Context) {
 		var mentee Models.Mentee
 		Config.DB.Where("user_id = ?", element.Menteeid).First(&mentee)
 		menteestruecount[index].Mentee = mentee
+		////
+
+		var mentorr Models.Mentor
+		Config.DB.Where("id = ?", mentor.ID).First(&mentorr)
+		//fmt.Println(mentorr.Major)
+		if mentee.Department == mentorr.Major && menteestruecount[index].Percent < 85 {
+			menteestruecount[index].Percent += 10
+		}
+		if mentee.Department != mentorr.Major {
+			menteestruecount[index].Percent -= 10
+		}
+
 		//
 		var userr Models.User
 		Config.DB.Where("id = ?", user.UserID).First(&userr)

@@ -145,13 +145,18 @@ func GetAdvertsAll(c *gin.Context) {
 		User    Models.User
 		Profile Models.UserProfile
 		About   Models.About
+		What    bool
 	}
 	var adverts []Models.Advert
-	Config.DB.Find(&adverts)
+
+	Config.DB.Where("mentor_id= ?", 56).Find(&adverts)
 	var jsonmodel []Model
 	var jsonsolo Model
-
+	session, _ := store.Get(c.Request, "sessioncontrol")
+	control := session.Values["sessionmail"]
+	controll := fmt.Sprintf("%s", control)
 	for _, element := range adverts {
+
 		var comp Models.Company
 		Config.DB.Where("id = ?", element.CompanyID).First(&comp)
 		var user Models.User
@@ -160,6 +165,18 @@ func GetAdvertsAll(c *gin.Context) {
 		Config.DB.Where("user_id = ?", comp.UserID).First(&prof)
 		var about Models.About
 		Config.DB.Where("user_id = ?", comp.UserID).First(&about)
+
+		var userrr Models.User
+		Config.DB.Where("mail = ?", controll).First(&userrr)
+		var app Models.Application
+		Config.DB.Where("user_id = ? AND advert_id = ?", userrr.ID, element.ID).First(&app)
+
+		if app.ID != 0 {
+			jsonsolo.What = false
+		}
+		if app.ID == 0 {
+			jsonsolo.What = true
+		}
 
 		jsonsolo.About = about
 		jsonsolo.User = user
