@@ -22,6 +22,7 @@ type MenteeModel struct {
 	MenteeID    uint
 	Skill       []string
 	ProfilPhoto string
+	UserID      uint
 }
 
 func MenteeList(c *gin.Context) {
@@ -70,6 +71,7 @@ func MenteeList(c *gin.Context) {
 		mentmodel.Skill = skillnames
 		mentmodel.PhoneNumber = userp.PhoneNumber
 		mentmodel.Mail = u.Mail
+		mentmodel.UserID = u.ID
 		mentmodels = append(mentmodels, mentmodel)
 	}
 
