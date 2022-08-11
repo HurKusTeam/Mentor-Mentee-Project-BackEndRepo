@@ -21,6 +21,7 @@ type MailPW struct {
 	AdvertID    uint
 	ProfilIMG   string
 	MenteeCount int
+	IsInd       bool
 }
 
 var store = sessions.NewCookieStore([]byte("sessioncontrol"))
@@ -71,6 +72,9 @@ func Login(c *gin.Context) {
 			}
 			if advert.ID != 0 {
 				user.AdvertID = advert.ID
+			}
+			if mentor.IsIndividual {
+				user.IsInd = true
 			}
 		}
 		if mentee.ID != 0 {

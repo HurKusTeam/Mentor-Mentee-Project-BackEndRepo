@@ -199,7 +199,7 @@ func GetProfile(c *gin.Context) {
 
 	var userr Models.User
 	var userp Models.UserProfile
-
+	var advert Models.Advert
 	var uabout Models.About
 
 	var uapp Models.Advert
@@ -251,6 +251,8 @@ func GetProfile(c *gin.Context) {
 		model.Companymentors = commen
 		Config.DB.Where("company_id = ?", ucompany.ID).Find(&comad)
 		model.Companyadverts = comad
+		Config.DB.First(&advert, "company_id = ?", ucompany.ID)
+		model.AdvertID = advert.ID
 
 	}
 	if umentor.ID != 0 {
@@ -266,6 +268,8 @@ func GetProfile(c *gin.Context) {
 		if umentor.CompanyID == 3 {
 			model.IsIndividual = true
 		}
+		Config.DB.First(&advert, "mentor_id = ?", umentor.ID)
+		model.AdvertID = advert.ID
 	}
 
 	model.UserName = userr.UserName
@@ -287,7 +291,6 @@ func GetProfile(c *gin.Context) {
 	model.Department = umentee.Department
 	model.Badge = umentee.Badge
 
-	model.AdvertID = uapp.ID
 	model.Facebook = uabout.Facebook
 	model.Twitter = uabout.Twitter
 	model.GitHub = uabout.GitHub

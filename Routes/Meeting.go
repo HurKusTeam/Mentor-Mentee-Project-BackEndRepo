@@ -8,7 +8,7 @@ import (
 
 func MeetingRoute(router *gin.Engine) {
 	router.POST("/Meetings/:id", Controllers.CreateMeeting)
-
+	router.GET("/Meetings/", Controllers.GetMeetings)
 	router.GET("/Meetings/:id", Controllers.GetMeetings)
 
 }
