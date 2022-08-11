@@ -11,15 +11,16 @@ import (
 )
 
 type MailPW struct {
-	Mail      string
-	Password  string
-	Role      int
-	UserID    uint
-	CompanyID uint
-	MentorID  uint
-	MenteeID  uint
-	AdvertID  uint
-	ProfilIMG string
+	Mail        string
+	Password    string
+	Role        int
+	UserID      uint
+	CompanyID   uint
+	MentorID    uint
+	MenteeID    uint
+	AdvertID    uint
+	ProfilIMG   string
+	MenteeCount int
 }
 
 var store = sessions.NewCookieStore([]byte("sessioncontrol"))
@@ -77,6 +78,7 @@ func Login(c *gin.Context) {
 			user.CompanyID = mentee.CompanyID
 			user.MentorID = mentee.MentorID
 			user.MenteeID = mentee.ID
+			user.MenteeCount = mentee.MenteeCount
 		}
 		if company.ID != 0 {
 			user.Role = 2
