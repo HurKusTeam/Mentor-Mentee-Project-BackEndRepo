@@ -8,21 +8,23 @@ import (
 )
 
 type model struct {
-	Name      string
-	Surname   string
-	Major     string
-	Uni       string
-	Birthdate string
-	Mail      string
-	Tel       string
-	City      string
-	Linkedin  string
-	Github    string
-	Website   string
-	Facebook  string
-	Twitter   string
-	ID        uint
-	AdID      uint
+	Name       string
+	Surname    string
+	Major      string
+	Uni        string
+	Birthdate  string
+	Mail       string
+	Tel        string
+	City       string
+	Linkedin   string
+	Github     string
+	Website    string
+	Facebook   string
+	Twitter    string
+	ID         uint
+	AdID       uint
+	ProfileImg string
+	Applied    bool
 }
 
 func GetIndividual(c *gin.Context) {
@@ -39,6 +41,7 @@ func GetIndividual(c *gin.Context) {
 		var unc Models.UniversityCatalog
 		var mentor Models.Mentor
 		var advert Models.Advert
+		var app Models.Application
 		Config.DB.Where("user_id = ?", ment.UserID).First(&up)
 		Config.DB.Where("user_id = ?", ment.UserID).First(&ab)
 		Config.DB.Where("id = ?", ment.UserID).First(&us)
@@ -61,6 +64,14 @@ func GetIndividual(c *gin.Context) {
 		modelmentor.Twitter = ab.Twitter
 		modelmentor.ID = mentor.UserID
 		modelmentor.AdID = advert.ID
+		Config.DB.Where("advert_id = ?", advert.ID).First(&app)
+		if app.ID == 0 {
+			modelmentor.Applied = false
+		}
+		if app.ID != 0 {
+			modelmentor.Applied = true
+		}
+		modelmentor.ProfileImg = up.ProfileImage
 		model = append(model, modelmentor)
 
 	}
