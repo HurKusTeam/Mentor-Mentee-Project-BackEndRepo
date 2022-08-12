@@ -52,15 +52,16 @@ func CreateMeeting(c *gin.Context) {
 
 	Config.DB.First(&mentee, "id = ?", c.Param("id"))
 
-	c.BindJSON(&modelmeeting)
+	c.ShouldBindJSON(&modelmeeting)
 	meeting.Title = modelmeeting.Title
 	meeting.Link = modelmeeting.Link
 	meeting.Date = modelmeeting.Date
 	meeting.MenteeID = mentee.ID
 	meeting.Description = modelmeeting.Description
 	meeting.MentorID = mentee.MentorID
-	c.BindJSON(&meeting)
+
 	Config.DB.Create(&meeting)
+	c.ShouldBindJSON(&meeting)
 	c.JSON(200, &meeting)
 
 }
