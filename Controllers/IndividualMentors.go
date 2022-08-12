@@ -42,6 +42,9 @@ func GetIndividual(c *gin.Context) {
 		var mentor Models.Mentor
 		var advert Models.Advert
 		var app Models.Application
+		session, _ := store.Get(c.Request, "sessioncontrol")
+		control := session.Values["sessionid"]
+
 		Config.DB.Where("user_id = ?", ment.UserID).First(&up)
 		Config.DB.Where("user_id = ?", ment.UserID).First(&ab)
 		Config.DB.Where("id = ?", ment.UserID).First(&us)
@@ -66,7 +69,7 @@ func GetIndividual(c *gin.Context) {
 		modelmentor.AdID = advert.ID
 
 		modelmentor.Applied = false
-		Config.DB.Where("advert_id = ?", advert.ID).First(&app)
+		Config.DB.Where("advert_id = ? AND user_id = ?", advert.ID, control).First(&app)
 		if app.ID == 0 {
 			modelmentor.Applied = false
 		}
