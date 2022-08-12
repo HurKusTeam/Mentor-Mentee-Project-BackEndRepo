@@ -9,6 +9,6 @@ import (
 func LoginRoute(router *gin.Engine) {
 	router.POST("/Login", Controllers.Login)
 	router.GET("/Logout", Controllers.Logout)
-	router.GET("/Logout/:id", Controllers.Logout)
+	router.GET("/Logout/:id", Controllers.Logoutt)
 
 }

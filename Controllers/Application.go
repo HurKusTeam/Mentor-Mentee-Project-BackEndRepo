@@ -5,9 +5,10 @@ import (
 	"TREgitim/Models"
 	"TREgitim/Repositories"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"strconv"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 type AppModel struct {
@@ -82,10 +83,6 @@ func ReceivedApplications(c *gin.Context) {
 	Config.DB.Where("mail = ?", controll).First(&userr)
 	var numb = userr.ID
 	var num = uint(numb)
-
-	if control == nil {
-		c.Redirect(301, "/Login")
-	}
 
 	var comp Models.Company
 	var advert Models.Advert

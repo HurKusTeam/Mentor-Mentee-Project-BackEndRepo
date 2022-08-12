@@ -111,10 +111,6 @@ func GetTodo(c *gin.Context) {
 	numberr, _ := strconv.ParseUint(c.Param("mentorid"), 10, 32)
 	controll := fmt.Sprintf("%s", control)
 
-	if control == nil {
-		c.Redirect(301, "/Login")
-	}
-
 	var mentee Models.Mentee
 	var mentor Models.Mentor
 	Config.DB.Where("id = ?", uint(number)).First(&mentee)
