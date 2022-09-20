@@ -10,8 +10,7 @@ import (
 var DB *gorm.DB
 
 func Connect() {
-	dsn := "host=93.115.79.25 user=elif password=hurKUS.18072022 dbname=hurkus port=5432 sslmode=disable TimeZone=Asia/Shanghai"
-        db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	
 	if err != nil {
 		fmt.Println("DATABASE CONNECTION HATA")
 	}
