@@ -11,7 +11,7 @@ var DB *gorm.DB
 
 func Connect() {
 	
-
+        db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		fmt.Println("DATABASE CONNECTION HATA")
 	}
